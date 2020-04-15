@@ -8,11 +8,8 @@ from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 
 #####################
-#	Visualisations	#
+#  Visualisations   #
 ################################################################################
-
-
---------------------------------------------------------------------------------
 
 
 def word_dist_plot(dataframe: pd.core.frame.DataFrame,
@@ -59,7 +56,7 @@ def word_dist_plot(dataframe: pd.core.frame.DataFrame,
         raise TypeError('arguments must be pandas.DataFrame, int, int')
 
 
---------------------------------------------------------------------------------
+################################################################################
 
 
 def count_plot(dataframe: pd.core.frame.DataFrame,
@@ -88,74 +85,75 @@ def count_plot(dataframe: pd.core.frame.DataFrame,
         raise TypeError('arguments must be pandas.DataFrame, int, int')
 
 
---------------------------------------------------------------------------------
+################################################################################
 
 
-def conf_matrix(self, labels_test, labels_hat_test):
-	"""
-	Calculates the different values of the confusion matrix.
+def conf_matrix(self, labels_test, labels_test_preds):
+    """
+    Calculates the different values of the confusion matrix.
 
-	----------
-	Input: conf_matrix(model, labels_values, labels_predicted_values)
-	----------
-	Output: cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
-	"""
-        for ind, label in enumerate(labels_test):
-            pred = labels_hat_test[ind]
-            if label == 1:
-                if label == pred:
-                    cm['TP'] += 1
-                else:
-                    cm['FN'] += 1
+    ----------
+    Input: conf_matrix(model, labels_values, labels_predicted_values)
+    ----------
+    Output: cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
+    """
+    cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
+    for ind, label in enumerate(labels_test):
+        pred = labels_test_preds[:,1][ind]
+        if label == 1:
+            if label == pred:
+                cm['TP'] += 1
             else:
-                if label == pred:
-                    cm['TN'] += 1
-                else:
-                    cm['FP'] += 1
-            self.cm_values = cm
-        return cm
+                cm['FN'] += 1
+        else:
+            if label == pred:
+                cm['TN'] += 1
+            else:
+                cm['FP'] += 1
+        self.cm_values = cm
+    return cm
 
 
---------------------------------------------------------------------------------
+################################################################################
 
 
 def buildROC(target_train, train_preds, target_test, test_preds):
-	"""
-	Creates the Receiver Operating Characteristic curve.
+    """
+    Creates the Receiver Operating Characteristic curve.
 
-	----------
-	Input: buildROC(labels_train_values, labels_predicted_train_values,
-		   labels_test_values, labels_predicted_test_values)
-	----------
-	Output: file called 'roc.png'
-	"""
-	fpr, tpr, threshold = roc_curve(target_test, test_preds)
-	roc_auc = auc(fpr, tpr)
-	fpr1, tpr1, threshold = roc_curve(target_train, train_preds)
-	roc_auc1 = auc(fpr1, tpr1)
-	plt.title('Receiver Operating Characteristic')
-	plt.plot(fpr1, tpr1, 'b', label='Train AUC = %0.2f' % roc_auc1)
-	plt.plot(fpr, tpr, 'b', label='Validation AUC = %0.2f' % roc_auc, color='g')
-	plt.legend(loc='lower right')
-	plt.plot([0, 1], [0, 1], 'r--')
-	plt.ylabel('True Positive Rate')
-	plt.xlabel('False Positive Rate')
-	plt.gcf().savefig('roc.png')
+    ----------
+    Input: buildROC(labels_train_values, labels_predicted_train_values,
+           labels_test_values, labels_predicted_test_values)
+    ----------
+    Output: file called 'roc.png'
+    """
+    fpr, tpr, threshold = roc_curve(target_test, test_preds)
+    roc_auc = auc(fpr, tpr)
+    fpr1, tpr1, threshold = roc_curve(target_train, train_preds)
+    roc_auc1 = auc(fpr1, tpr1)
+    plt.title('Receiver Operating Characteristic')
+    plt.plot(fpr1, tpr1, 'b', label='Train AUC = %0.2f' % roc_auc1, color=sns.color_palette()[1])
+    plt.plot(fpr, tpr, 'b', label='Validation AUC = %0.2f' % roc_auc, color=sns.color_palette()[4])
+    plt.legend(loc='lower right')
+    plt.plot([0, 1], [0, 1], 'r--')
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.gcf().savefig('./img/roc.png')
 
 
---------------------------------------------------------------------------------
+################################################################################
 
 
 def annot(fpr, tpr, thr):
-	"""
-	Annotates the ROC curve.
+    """
+    Annotates the ROC curve.
 
-	----------
-	Input: annot(FPR, TPR, Threshold) as per calculated by the roc_curve function
-		   (from sklearn.metrics import roc_curve)
-	----------
-	Output: values of the various thresholds along the ROC curve
-	"""
+    ----------
+    Input: annot(FPR, TPR, Threshold) as per calculated by the roc_curve function
+           (from sklearn.metrics import roc_curve)
+    ----------
+    Output: values of the various thresholds along the ROC curve
+    """
     k=0
     for i,j in zip(fpr,tpr):
         if k %75 == 0:
