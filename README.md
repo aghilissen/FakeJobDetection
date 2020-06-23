@@ -43,7 +43,7 @@ One of the first thing to mention is that, the similarities between legitimate a
 
 ## Classification as a solution
 ### Synthetic Minority Oversampling TEchnique
-Due to the class imbalance (only 5% of the dataset is fraudulent job ads), the minority class has been augmented using the SMOTE from the [imbalanced-learn library/API](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.over_sampling.SMOTE.html). This allowed our training dataset to have **XXX** datapoints.
+Due to the class imbalance (only 5% of the dataset is fraudulent job ads), the minority class has been augmented using the SMOTE from the [imbalanced-learn library/API](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.over_sampling.SMOTE.html). This allowed our training dataset to have 25,262 datapoints.
 
 Extra features were extracted form the text fields (mainly offers providing external URLs, phone or email contact details) and the Term Frequency / Inverse Document Frequency method was applied on each of the four main text fields: `company_profile`, `description`, `requirements` and `benefits`. The vocabulary has been limited to 5000 words in order to keep the size of these objects manageable.
 
