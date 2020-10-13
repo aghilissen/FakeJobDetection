@@ -7,88 +7,103 @@ import seaborn as sns
 from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 
-#####################
-#  Visualisations   #
-################################################################################
 
+class Plots:
+    """
+    Creates plots for text columns: word_dist_plot()
+    and for categorical columns: count_plot()
 
-def word_dist_plot(dataframe: pd.core.frame.DataFrame,
+    ----------
+    Input: method(dataframe, first column to process, last column to process)
+    ----------
+    Output: plot with distinction fraudulent/legitimate.
+    """
+
+    def __init__(self, dataframe, start, end):
+
+        self.dataframe = dataframe
+        self.start = start
+        self.end = end
+
+    @staticmethod
+    def word_dist_plot(dataframe: pd.core.frame.DataFrame,
+                       start: int = 0,
+                       end: int = -1
+                       ) -> pd.core.frame.DataFrame or int or int:
+        """
+        Creates distribution plots for text columns.
+        It will calculate the length of the documents
+        within these columns and represent the population
+        of fraudulent and legit job ads for those columns.
+
+        NOTE: the y axis will be truncated at 800 to provide
+        a better visual of the fraudulent ads population.
+
+        ----------
+        Input: word_dist_plot(dataframe[, start_of_column_slicing=0, end_of_column_slicing=-1]).
+        ----------
+        Output: one distribution plot per column.
+        """
+        if isinstance(dataframe, pd.core.frame.DataFrame):
+            for column in dataframe.columns[start:end]:
+                legit_desc_words = dataframe[dataframe['fraudulent'] == 0][column].str.len(
+                )
+                fraud_desc_words = dataframe[dataframe['fraudulent'] == 1][column].str.len(
+                )
+                sns.distplot(legit_desc_words,
+                             kde=False,
+                             label='Legitimate job posts',
+                             color=sns.color_palette('RdYlGn')[4],
+                             hist_kws={"alpha": 1})
+                sns.distplot(fraud_desc_words,
+                             kde=False,
+                             label='Fraudulent job posts',
+                             color=sns.color_palette('RdYlGn')[1],
+                             hist_kws={"alpha": 1})
+                plt.xlabel('Word count')
+                plt.ylabel('Number of posts')
+                plt.ylim(0, 800)
+                plt.title(f"How many words have been used in the job's {column}?")
+                plt.legend()
+                plt.show()
+        else:
+            raise TypeError('arguments must be pandas.DataFrame, int, int')
+
+    @staticmethod
+    def count_plot(dataframe: pd.core.frame.DataFrame,
                    start: int = 0,
                    end: int = -1
                    ) -> pd.core.frame.DataFrame or int or int:
-    """
-    Creates distplot for text columns.
-    It will calculate the length of the documents
-    within these columns and represent the population
-    of fraudulent and legit job ads for those columns.
+        """
+        Creates a count plot per categorical columns.
+        It differentiates fraudulent and legitimate posts populations.
 
-    NOTE: the y axis will be truncated at 800 to provide
-    a better visual of the fraudulent ads population.
-
-    ----------
-    Input: word_dist_plot(dataframe[, start_of_column_slicing=0, end_of_column_slicing=-1])
-    ----------
-    Output: one distplot per column
-    """
-    if isinstance(dataframe, pd.core.frame.DataFrame):
-        for column in dataframe.columns[start:end]:
-            legit_desc_words = dataframe[dataframe['fraudulent'] == 0][column].str.len(
-            )
-            fraud_desc_words = dataframe[dataframe['fraudulent'] == 1][column].str.len(
-            )
-            sns.distplot(legit_desc_words,
-                         kde=False,
-                         label='Legitimate job posts',
-                         color=sns.color_palette('RdYlGn')[4],
-                         hist_kws={"alpha": 1})
-            sns.distplot(fraud_desc_words,
-                         kde=False,
-                         label='Fraudulent job posts',
-                         color=sns.color_palette('RdYlGn')[1],
-                         hist_kws={"alpha": 1})
-            plt.xlabel('Word count')
-            plt.ylabel('Number of posts')
-            plt.ylim(0, 800)
-            plt.title(f"How many words have been used in the job's {column}?")
-            plt.legend()
-            plt.show()
-    else:
-        raise TypeError('arguments must be pandas.DataFrame, int, int')
+        ----------
+        Input: count_plot(dataframe[, start_of_column_slicing=0, end_of_column_slicing=-1])
+        ----------
+        Output: one count plot per column.
+        """
+        if isinstance(dataframe, pd.core.frame.DataFrame):
+            for column in dataframe.columns[start:end]:
+                sns.countplot(x=column, hue='fraudulent',
+                              palette='RdYlGn_r', data=dataframe, saturation=1)
+                plt.title(f'Is there a type of {column} targeted by fraudsters?')
+                plt.xticks(rotation=90)
+                plt.ylim(0, 1000)
+                plt.legend()
+                plt.show()
+        else:
+            raise TypeError('arguments must be pandas.DataFrame, int, int')
 
 
-################################################################################
-
-
-def count_plot(dataframe: pd.core.frame.DataFrame,
-               start: int = 0,
-               end: int = -1
-               ) -> pd.core.frame.DataFrame or int or int:
-    """
-    Creates a countplot per categorical columns.
-    It differenciates fraudulent and legitimate posts populations.
-
-    ----------
-    Input: count_plot(dataframe[, start_of_column_slicing=0, end_of_column_slicing=-1])
-    ----------
-    Output: one countplot per column
-    """
-    if isinstance(dataframe, pd.core.frame.DataFrame):
-        for column in dataframe.columns[start:end]:
-            sns.countplot(x=column, hue='fraudulent',
-                          palette='RdYlGn_r', data=dataframe, saturation=1)
-            plt.title(f'Is there a type of {column} targeted by fraudsters?')
-            plt.xticks(rotation=90)
-            plt.ylim(0, 1000)
-            plt.legend()
-            plt.show()
-    else:
-        raise TypeError('arguments must be pandas.DataFrame, int, int')
-
-
-################################################################################
-
-
+<<<<<<< HEAD
 def conf_matrix(self, labels_test, labels_test_predictions):
+=======
+def conf_matrix(self,
+                labels_test,
+                labels_test_predictions
+                ):
+>>>>>>> e31800d... Refactoring the python scripts
     """
     Calculates the different values of the confusion matrix.
 
@@ -97,16 +112,22 @@ def conf_matrix(self, labels_test, labels_test_predictions):
     ----------
     Output: cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
     """
+<<<<<<< HEAD
     cmatrix = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
     for index, label in enumerate(labels_test):
         predictions = labels_test_predictions[:,1][index]
+=======
+    cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
+    for ind, label in enumerate(labels_test):
+        predictions = labels_test_predictions[:, 1][ind]
+>>>>>>> e31800d... Refactoring the python scripts
         if label == 1:
-            if label == pred:
+            if label == predictions:
                 cm['TP'] += 1
             else:
                 cm['FN'] += 1
         else:
-            if label == pred:
+            if label == predictions:
                 cm['TN'] += 1
             else:
                 cm['FP'] += 1
@@ -117,7 +138,10 @@ def conf_matrix(self, labels_test, labels_test_predictions):
 ################################################################################
 
 
-def buildROC(target_train, train_preds, target_test, test_preds):
+def buildROC(target_train,
+             train_predictions,
+             target_test,
+             test_predictions):
     """
     Creates the Receiver Operating Characteristic curve.
 
@@ -127,9 +151,9 @@ def buildROC(target_train, train_preds, target_test, test_preds):
     ----------
     Output: file called 'roc.png'
     """
-    fpr, tpr, threshold = roc_curve(target_test, test_preds)
+    fpr, tpr, threshold = roc_curve(target_test, test_predictions)
     roc_auc = auc(fpr, tpr)
-    fpr1, tpr1, threshold = roc_curve(target_train, train_preds)
+    fpr1, tpr1, threshold = roc_curve(target_train, train_predictions)
     roc_auc1 = auc(fpr1, tpr1)
     plt.title('Receiver Operating Characteristic')
     plt.plot(fpr1, tpr1, 'b', label='Train AUC = %0.2f' % roc_auc1, color=sns.color_palette()[1])
@@ -144,18 +168,18 @@ def buildROC(target_train, train_preds, target_test, test_preds):
 ################################################################################
 
 
-def annot(fpr, tpr, thr):
+def annotate(fpr, tpr, thr):
     """
     Annotates the ROC curve.
 
     ----------
-    Input: annot(FPR, TPR, Threshold) as per calculated by the roc_curve function
+    Input: annotate(FPR, TPR, Threshold) as per calculated by the roc_curve function
            (from sklearn.metrics import roc_curve)
     ----------
     Output: values of the various thresholds along the ROC curve
     """
-    k=0
-    for i,j in zip(fpr,tpr):
-        if k %75 == 0:
-            plt.annotate(round(thr[k],2),xy=(i,j), textcoords='data')
-        k+=1
+    k = 0
+    for i, j in zip(fpr, tpr):
+        if k % 75 == 0:
+            plt.annotate(round(thr[k], 2), xy=(i, j), textcoords='data')
+        k += 1
