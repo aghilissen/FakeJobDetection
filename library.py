@@ -88,7 +88,7 @@ def count_plot(dataframe: pd.core.frame.DataFrame,
 ################################################################################
 
 
-def conf_matrix(self, labels_test, labels_test_preds):
+def conf_matrix(self, labels_test, labels_test_predictions):
     """
     Calculates the different values of the confusion matrix.
 
@@ -97,9 +97,9 @@ def conf_matrix(self, labels_test, labels_test_preds):
     ----------
     Output: cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
     """
-    cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
-    for ind, label in enumerate(labels_test):
-        pred = labels_test_preds[:,1][ind]
+    cmatrix = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
+    for index, label in enumerate(labels_test):
+        predictions = labels_test_predictions[:,1][index]
         if label == 1:
             if label == pred:
                 cm['TP'] += 1
@@ -110,8 +110,8 @@ def conf_matrix(self, labels_test, labels_test_preds):
                 cm['TN'] += 1
             else:
                 cm['FP'] += 1
-        self.cm_values = cm
-    return cm
+        self.cm_values = cmatrix
+    return cmatrix
 
 
 ################################################################################
