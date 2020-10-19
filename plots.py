@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from sklearn.metrics import auc
-from sklearn.metrics import roc_curve
-
 
 class Plots:
     """
