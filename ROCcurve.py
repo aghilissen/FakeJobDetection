@@ -1,3 +1,10 @@
+import matplotlib.pyplot as plt
+from sklearn.metrics import auc
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve
+
+
 def buildROC(target_train, train_predictions, target_test, test_predictions):
     """
     Creates the Receiver Operating Characteristic curve.

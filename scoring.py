@@ -1,7 +1,8 @@
-import pandas as pd
+from sklearn.metrics import auc
+from sklearn.metrics import roc_curve
 
 
-class GetScore:
+class Get:
     """
     Calculates the score for a given model.
     Available methods: precision_score(), recall_score(), f1_score(), auc_score()
