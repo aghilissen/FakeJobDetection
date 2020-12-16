@@ -184,5 +184,5 @@ GitHub.sublime-settings
 
 # End of https://www.gitignore.io/api/archlinuxpackages,python,jupyternotebooks,linux,sublimetext
 ToDo.md
-X.csv
-y.csv
+data/X.csv
+data/y.csv
