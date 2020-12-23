@@ -4,7 +4,7 @@ from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 
 
-def buildROC(target_train, train_predictions, target_test, test_predictions, filename=roc.png):
+def buildROC(target_train, train_predictions, target_test, test_predictions, filename='roc.png'):
     """
     Creates the Receiver Operating Characteristic curve.
 
@@ -25,7 +25,6 @@ def buildROC(target_train, train_predictions, target_test, test_predictions, fil
     plt.plot([0, 1], [0, 1], 'r--')
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
-    if output=filename:
     plt.gcf().savefig(f'./img/{filename}')
 ################################################################################
 
