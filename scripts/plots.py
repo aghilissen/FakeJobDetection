@@ -43,9 +43,9 @@ class Plots:
         """
         if isinstance(dataframe, pd.core.frame.DataFrame):
             for column in dataframe.columns[start:end]:
-                legit_desc_words = dataframe[dataframe['fraudulent'] == 0][column].str.len(
+                legit_desc_words = dataframe[dataframe['Fraudulent'] == 0][column].str.len(
                 )
-                fraud_desc_words = dataframe[dataframe['fraudulent'] == 1][column].str.len(
+                fraud_desc_words = dataframe[dataframe['Fraudulent'] == 1][column].str.len(
                 )
                 sns.distplot(legit_desc_words,
                              kde=False,
@@ -82,7 +82,7 @@ class Plots:
         """
         if isinstance(dataframe, pd.core.frame.DataFrame):
             for column in dataframe.columns[start:end]:
-                sns.countplot(x=column, hue='fraudulent',
+                sns.countplot(x=column, hue='Fraudulent',
                               palette='RdYlGn_r', data=dataframe, saturation=1)
                 plt.title(f'Is there a type of {column} targeted by fraudsters?')
                 plt.xticks(rotation=90)

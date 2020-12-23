@@ -1,12 +1,10 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import auc
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import roc_auc_score
 from sklearn.metrics import roc_curve
 
 
-def buildROC(target_train, train_predictions, target_test, test_predictions):
+def buildROC(target_train, train_predictions, target_test, test_predictions, filename=roc.png):
     """
     Creates the Receiver Operating Characteristic curve.
 
@@ -27,7 +25,8 @@ def buildROC(target_train, train_predictions, target_test, test_predictions):
     plt.plot([0, 1], [0, 1], 'r--')
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
-    plt.gcf().savefig('./img/roc.png')
+    if output=filename:
+    plt.gcf().savefig(f'./img/{filename}')
 ################################################################################
 
 
